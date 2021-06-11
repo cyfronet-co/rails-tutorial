@@ -64,6 +64,6 @@ class GrantsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def grant_params
-      params.require(:grant).permit(:title, :name)
+      params.require(:grant).permit(:title, :name, :content, documents: [])
     end
 end

@@ -103,3 +103,96 @@ end
 * Explain validation
 * Explain callbacks and why callbacks should be used with care
 
+## Active text
+
+Run
+
+```
+bin/rails action_text:install
+```
+
+Add `has_rich_text :content` to `Grant` model class.
+
+```ruby
+class Grant < ApplicationRecord
+  has_rich_text :content
+  #...
+end
+```
+
+Add new form element (`app/views/grants/_form.html.erb`)
+
+```erb
+<div class="field">
+  <%= form.label :content %>
+  <%= form.rich_text_area :content %>
+</div>
+```
+
+Change `GrantsController#grant_params` (`app/controllers/grants_controller.rb`)
+into:
+
+```ruby
+def grant_params
+  params.require(:grant).permit(:title, :name, :content)
+end
+```
+
+Explain strong parameters
+
+Add content to grant show view (`app/views/grants/show.html.erb`)
+
+```erb
+<p>
+  <%= @grant.content %>
+</p>
+```
+
+See content and error in logs. Add missing `gem 'image_processing', '~> 1.2'`
+gem into `Gemfile`. Explain `Gemfile`
+
+```
+bundle install
+bin/rails restart
+```
+
+## Active Storage
+
+Add `has_many_attached` into `Grant` model class (`app/models/grant.rb`):
+
+```ruby
+class Grant < ApplicationRecord
+  has_many_attached :documents
+  #...
+end
+```
+
+Add to grant form (`app/views/grants/_form.html.erb`)
+
+```erb
+<div class="field">
+  <%= form.label :documents %>
+  <%= form.file_field :documents, multiple: true %>
+</div>
+```
+
+Change `GrantsController#grant_params` into
+(`app/controllers/grants_controller.rb`):
+
+```ruby
+def grant_params
+  params.require(:grant).permit(:title, :name, :content, documents: [])
+end
+```
+
+Show attachments on grant show view (`app/views/grants/show.html.erb`):
+
+```erb
+<ul>
+  <% @grant.documents.each do |document| %>
+    <li>
+      <%= link_to document.blob.filename, rails_blob_path(document, disposition: "attachment") %>
+    </li>
+  <% end %>
+</ul>
+```

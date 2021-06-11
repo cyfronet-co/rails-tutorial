@@ -1,4 +1,7 @@
 class Grant < ApplicationRecord
+  has_rich_text :content
+  has_many_attached :documents
+
   validates :title, presence: true
   validates :name, presence: true
 

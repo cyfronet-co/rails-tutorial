@@ -10,5 +10,17 @@
   <%= @grant.name %>
 </p>
 
+<p>
+  <%= @grant.content %>
+</p>
+
+<ul>
+  <% @grant.documents.each do |document| %>
+    <li>
+      <%= link_to document.blob.filename, rails_blob_path(document, disposition: "attachment") %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to 'Edit', edit_grant_path(@grant) %> |
 <%= link_to 'Back', grants_path %>
