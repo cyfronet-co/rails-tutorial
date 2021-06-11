@@ -1,24 +1,17 @@
-# README
+# Rails tutorial - let's create simple bazar in 3h
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The repository stores code used during rails tutorial for CO team.
 
-Things you may want to cover:
+## Ruby basics
+  * Show module, class, method, inheritance, `attr_*`
+  * Show `do_that if somethid?`
+  * Show console
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Rails
+  * [Basics](docs/basics.md):
+    - Create simple MVC application (with postgresql as a backend)
+    - Create first static webpage (show how routing works)
+    - Add dynamic content (e.g. Time.now)
+    - Move dynamic content into controller
+    - Some styling with bootstrap and font awesome
+    - Create first entity (e.g. Article) with CRUD
