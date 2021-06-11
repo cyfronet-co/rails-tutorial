@@ -67,3 +67,39 @@ end
 
 Explain what is the difference between `variable_name` and `@variable_name`.
 
+## CRUD
+
+Run
+
+```
+rails g scaffold Grant title:string name:string
+rails db:migrate
+```
+
+* Play with CRUD a bit
+* Show what is generated
+* Explain migrations
+* Show routes and output of `rails routes`
+* Explain paths/urls generation (e.g. `root_path`, `grants_path`,
+  `edit_grant_path(@grant)`
+* Show article json
+
+Add grant `title` and `name` validation (in `app/models/grant.rb`):
+
+```ruby
+class Grant < ApplicationRecord
+  validates :title, presence: true
+  validates :name, presence: true
+
+  after_save :log_creation
+
+  private
+    def log_creation
+      logger.info("New article: #{title} created")
+    end
+end
+```
+
+* Explain validation
+* Explain callbacks and why callbacks should be used with care
+
