@@ -1,4 +1,4 @@
-# Hotwire
+# Hotwire (https://hotwire.dev)
 
 Add hotwire dependency (`gem 'hotwire-rails'`) to `Gemfile` and remove
 `turbolinks` from `Gemfile`.
@@ -54,7 +54,7 @@ Add turbo frame tag into grant show and edit action
     url) - no header in inplace edit
   * Explain `"data-turbo-frame": "_top"`
 
-## Allocation creation inplace
+## Allocation creation in place
 
 Change "New allocation link into (`app/views/grants/show.html.erb`):
 ```erb

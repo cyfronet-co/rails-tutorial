@@ -103,7 +103,7 @@ end
 * Explain validation
 * Explain callbacks and why callbacks should be used with care
 
-## Active text
+## Active Text
 
 Run
 

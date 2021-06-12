@@ -13,5 +13,15 @@ The repository stores code used during rails tutorial for CO team.
     - Create first static webpage (show how routing works)
     - Add dynamic content (e.g. Time.now)
     - Move dynamic content into controller
-    - Some styling with bootstrap and font awesome
     - Create first entity (e.g. Article) with CRUD
+    - Active Text
+    - Active Storage
+    - Nested resources
+    - I18n
+    - Console
+  * [Hotwire](docs/hotwire.md)
+    - turbo frame
+    - turbo stream
+    - Not hotwire but nice to introduce now: counter cache
+    - Live updated though websockets
+  * TBC
