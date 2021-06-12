@@ -13,7 +13,7 @@ Add turbo frame tag into grant show and edit action
 
 `app/views/grants/show.html.erb`
 ```erb
-<%= turbo_frame_tag @grant do %>
+<%= turbo_frame_tag :grant do %>
   <p>
     <strong>Title:</strong>
     <%= @grant.title %>
@@ -43,7 +43,7 @@ Add turbo frame tag into grant show and edit action
 
 `app/views/grants/edit.html.erb`
 ```erb
-<%= turbo_frame_tag @grant do %>
+<%= turbo_frame_tag :grant do %>
   <%= render 'form', grant: @grant %>
   <%= link_to 'Show', @grant %> |
   <%= link_to 'Back', grants_path, "data-turbo-frame": "_top" %>
@@ -198,3 +198,95 @@ end
 
   * Explain when counter cache can be used (e.g. show all grants and number of
     allocations on index view)
+
+## Live updates
+
+Uncomment redis gem in `Gemfile`. Add websocket connection into grant show page
+(`app/views/grants/show.html.erb`):
+```erb
+<%= turbo_stream_from @grant %>
+```
+
+Broadcast when a new allocation is created (`app/models/allocation.rb`):
+```ruby
+class Allocation < ApplicationRecord
+  #...
+
+  after_create_commit -> { broadcast_append_to grant }
+end
+```
+
+**Problem**: entries are duplicated on the view. Solution - remove append action
+from `app/views/allocations/create.turbo_stream.erb` and use only websockets.
+
+There are additional actions you can add to your model:
+
+```ruby
+class Allocation < ApplicationRecord
+  #...
+
+  after_create_commit -> { broadcast_append_to grant }
+  after_destroy_commit -> { broadcast_remove_to grant }
+  after_update_commit -> { broadcast_replace_to grant }
+end
+```
+
+or simply:
+
+```ruby
+class Allocation < ApplicationRecord
+  #...
+
+  broadcasts_to :grant
+end
+```
+
+  * Show create, update, destroy from console
+  * Mention that these updates are done in async way (ActiveJob - we will be
+    talking about this latter on)
+
+Last hotwire thing: broadcast grant edit to all opened browsers
+(`app/models/grant.rb`):
+```ruby
+class Grant < ApplicationRecord
+  #...
+
+  broadcasts
+end
+```
+
+Extract grant show into `app/views/grants/_grant.html.erb`:
+```erb
+<div id="<%= dom_id grant %>">
+  <p>
+    <strong>Title:</strong>
+    <%= grant.title %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= grant.name %>
+  </p>
+
+  <p>
+    <%= grant.content %>
+  </p>
+
+  <ul>
+    <% grant.documents.each do |document| %>
+      <li>
+        <%= link_to document.blob.filename, rails_blob_path(document, disposition: "attachment") %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+```
+
+`app/views/grants/show.html.erb`:
+```erb
+<%= turbo_frame_tag :grant do %>
+  <%= render @grant %>
+  <%= link_to 'Edit', edit_grant_path(@grant) %> |
+  <%= link_to 'Back', grants_path %>
+<% end %>
+```

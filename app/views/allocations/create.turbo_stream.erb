@@ -1,4 +1,3 @@
-<%= turbo_stream.append "allocations", @allocation %>
 <%= turbo_stream.replace "allocations_count" do %>
   (<%= @allocation.grant.allocations.size %>)
 <% end %>

@@ -1,0 +1,23 @@
+<div id="<%= dom_id grant %>">
+  <p>
+    <strong>Title:</strong>
+    <%= grant.title %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= grant.name %>
+  </p>
+
+  <p>
+    <%= grant.content %>
+  </p>
+
+  <ul>
+    <% grant.documents.each do |document| %>
+      <li>
+        <%= link_to document.blob.filename, rails_blob_path(document, disposition: "attachment") %>
+      </li>
+    <% end %>
+  </ul>
+</div>

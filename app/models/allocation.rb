@@ -3,4 +3,6 @@ class Allocation < ApplicationRecord
 
   validates :host, presence: true
   validates :vcpu, presence: true
+
+  broadcasts_to :grant
 end

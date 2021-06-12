@@ -7,6 +7,7 @@ class Grant < ApplicationRecord
   validates :name, presence: true
 
   after_save :log_creation
+  broadcasts
 
   private
     def log_creation
