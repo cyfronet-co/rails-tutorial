@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  host: MyString
+  vcpu: 1
+  grant: one
+
+two:
+  host: MyString
+  vcpu: 1
+  grant: two

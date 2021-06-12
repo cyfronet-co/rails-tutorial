@@ -196,3 +196,117 @@ Show attachments on grant show view (`app/views/grants/show.html.erb`):
   <% end %>
 </ul>
 ```
+
+## Grant allocations
+
+Create simple allocation model which references grant:
+
+```
+bin/rails generate model Allocation host:string vcpu:integer grant:references
+```
+
+Add basic validation and relation definition between grant and allocations
+
+```ruby
+# app/models/alloction.rb
+class Allocation < ApplicationRecord
+  belongs_to :grant
+
+  validates :host, presence: true
+  validates :vcpu, presence: true
+end
+```
+
+```ruby
+# app/models/alloction.rb
+class Grant < ApplicationRecord
+  has_many :allocations, dependent: :destroy
+  #...
+end
+```
+
+  * Explain `belongs_to` a `has_many`
+  * Explain `dependent: :destroy`
+
+Create routes (`config/routes.rb`)
+```ruby
+resources :grants do
+  resources :allocations, only: [:new, :create]
+end
+```
+
+  * Explain nested routes
+
+Create controller for allocation model:
+
+```ruby
+class AllocationsController < ApplicationController
+  before_action :set_grant, only: %i[ new create ]
+
+  def new
+    @allocation = @grant.allocations.new
+  end
+
+  def create
+    @allocation = @grant.allocations.new(allocation_params)
+
+    respond_to do |format|
+      if @allocation.save
+        format.html { redirect_to @grant }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  private
+    def set_grant
+      @grant = Grant.find(params[:grant_id])
+    end
+
+    def allocation_params
+      params.require(:allocation).permit(:host, :vcpu)
+    end
+end
+```
+
+Create views for creating new allocation and showing existing one
+
+`app/views/allocations/new.html.erb`
+```erb
+<h1>New allocation</h1>
+
+<%= form_with(model: [@allocation.grant, @allocation]) do |form| %>
+  <div class="field">
+    <%= form.label :host %>
+    <%= form.text_field :host %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vcpu %>
+    <%= form.text_field :vcpu %>
+  </div>
+
+    <%= form.submit "Create" %>
+<% end %>
+
+<%= link_to "Back", @allocation.grant %>
+
+```
+
+`app/views/allocations/_allocations.html.erb`
+```erb
+<p id="<%= dom_id allocation %>">
+  Allocation on <%= allocation.host %>: <%= allocation.vcpu %> vcpu.
+</p>
+```
+
+Add allocations section into grant show view (`app/views/grants/show.html.erb`)
+```erb
+<div id="allocations">
+  <h1>Allocations</h1>
+  <%= render @grant.allocations %>
+</div>
+```
+
+  * Explain render collection capability
