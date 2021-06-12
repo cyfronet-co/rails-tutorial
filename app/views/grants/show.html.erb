@@ -1,35 +1,42 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @grant.title %>
-</p>
+<%= turbo_frame_tag @grant do %>
+  <p>
+    <strong>Title:</strong>
+    <%= @grant.title %>
+  </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @grant.name %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @grant.name %>
+  </p>
 
-<p>
-  <%= @grant.content %>
-</p>
+  <p>
+    <%= @grant.content %>
+  </p>
 
-<ul>
-  <% @grant.documents.each do |document| %>
-    <li>
-      <%= link_to document.blob.filename, rails_blob_path(document, disposition: "attachment") %>
-    </li>
-  <% end %>
-</ul>
+  <ul>
+    <% @grant.documents.each do |document| %>
+      <li>
+        <%= link_to document.blob.filename, rails_blob_path(document, disposition: "attachment") %>
+      </li>
+    <% end %>
+  </ul>
 
-<p>
   <%= link_to 'Edit', edit_grant_path(@grant) %> |
   <%= link_to 'Back', grants_path %>
-</p>
+<% end %>
 
-<div id="allocations">
-  <h1>Allocations</h1>
-  <%= render @grant.allocations %>
+<div>
+  <h1>
+    Allocations
+    <%= turbo_frame_tag "allocations_count" do %>
+      (<%= @grant.allocations.size %>)
+    <% end %>
+  </h1>
+  <%= turbo_frame_tag "allocations" do %>
+    <%= render @grant.allocations %>
+  <% end %>
 </div>
 
-<%= link_to "New allocation", new_grant_allocation_path(@grant) %>
+<%= turbo_frame_tag "new_allocation", src: new_grant_allocation_path(@grant), target: "_top" %>

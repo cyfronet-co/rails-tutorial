@@ -1,6 +1,8 @@
 <h1>Editing Grant</h1>
 
-<%= render 'form', grant: @grant %>
+<%= turbo_frame_tag @grant do %>
+  <%= render 'form', grant: @grant %>
+  <%= link_to 'Show', @grant %> |
+  <%= link_to 'Back', grants_path, "data-turbo-frame": "_top" %>
+<% end %>
 
-<%= link_to 'Show', @grant %> |
-<%= link_to 'Back', grants_path %>

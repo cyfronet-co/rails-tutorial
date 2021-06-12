@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  welcome:
+    index:
+      title: Bazar in 3h

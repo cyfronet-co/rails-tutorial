@@ -310,3 +310,43 @@ Add allocations section into grant show view (`app/views/grants/show.html.erb`)
 ```
 
   * Explain render collection capability
+
+## I18n
+
+Change `app/views/welcome/index.html.erb` `h1` tag content into:
+
+```erb
+<h1><%= t 'welcome.index.title' %></h1>
+```
+
+Add missing translation o `config/locales/en.yml`:
+```yaml
+en:
+  welcome:
+    index:
+      title: Bazar in 3h
+```
+
+Change `h1` tag in `app/views/welcome/index.html.haml` into:
+
+```erb
+<h1><%= t '.title' %></h1>
+```
+
+* Explain translation
+* Explain local translation (with controller, action scope)
+
+# Console
+
+Run:
+
+```
+bin/rails console
+```
+
+and find e.g. all articles, create new article:
+
+```
+Grant.all
+Grant.create(title: 'from console', name: 'plggfromconsole')
+```

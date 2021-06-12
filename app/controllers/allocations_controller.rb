@@ -10,6 +10,7 @@ class AllocationsController < ApplicationController
 
     respond_to do |format|
       if @allocation.save
+        format.turbo_stream
         format.html { redirect_to @grant }
       else
         format.html { render :new, status: :unprocessable_entity }
