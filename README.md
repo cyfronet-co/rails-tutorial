@@ -1,5 +1,4 @@
 # Rails tutorial - let's create simple bazar in 3h
-
 The repository stores code used during rails tutorial for CO team.
 
 ## Ruby basics
@@ -24,4 +23,9 @@ The repository stores code used during rails tutorial for CO team.
     - turbo stream
     - Not hotwire but nice to introduce now: counter cache
     - Live updated though websockets
-  * TBC
+  * [Authentication & Authorization](docs/aa.md)
+  * [Tests](docs/tests.md)
+  * [Emails](docs/emails.md)
+  * [Background jobs](docs/active_jobs.md)
+  * [Views components (https://github.com/github/view_component)](docs/view_components.md)
+  * [Assets via webpack](docs/assets.md)
