@@ -197,3 +197,31 @@ and only admin will have access to `staging` and `production` `master.key`s.
 ```
 bin/rails credentials:edit --environment production
 ```
+
+# Authorization
+
+**Problem** now everyone sees all grants. Let's fix it.
+
+Add relation between user and grant:
+
+```
+rails g migration AddUserToGrants user:references
+```
+
+  * Try to run this migration and explain the error. Possible way to fix it:
+    - Remove existing grants (this is what we will do)
+    - Change `null: false` into `null: true` in migration and assign existing
+      grants to user. Next change `null` to true - explain how this can be done
+      on production.
+
+Delete all grants from console (`bin/rails c`):
+```
+Grant.destroy_all
+```
+
+  * Show that also all allocations are destroyed
+
+Run migration one again:
+```
+bin/rails db:migrate
+```

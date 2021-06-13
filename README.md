@@ -1,4 +1,6 @@
-# Rails tutorial - let's create simple bazar in 3h The repository stores code used during rails tutorial for CO team.
+# Rails tutorial - let's create simple bazar in 3h
+
+The repository stores code used during rails tutorial for CO team.
 
 ## Ruby basics
   * Show module, class, method, inheritance, `attr_*`
