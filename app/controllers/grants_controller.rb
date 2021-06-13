@@ -1,9 +1,9 @@
 class GrantsController < ApplicationController
-  before_action :set_grant, only: %i[ show edit update destroy ]
+  before_action :set_and_authorize_grant, only: %i[ show edit update destroy ]
 
   # GET /grants or /grants.json
   def index
-    @grants = Grant.all
+    @grants = policy_scope(Grant.all)
   end
 
   # GET /grants/1 or /grants/1.json
@@ -12,7 +12,7 @@ class GrantsController < ApplicationController
 
   # GET /grants/new
   def new
-    @grant = Grant.new
+    @grant = current_user.grants.new
   end
 
   # GET /grants/1/edit
@@ -21,7 +21,8 @@ class GrantsController < ApplicationController
 
   # POST /grants or /grants.json
   def create
-    @grant = Grant.new(grant_params)
+    @grant = current_user.grants.new(grant_params)
+    authorize(@grant)
 
     respond_to do |format|
       if @grant.save
@@ -58,8 +59,11 @@ class GrantsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_grant
+    def set_and_authorize_grant
       @grant = Grant.find(params[:id])
+      authorize(@grant)
+
+      @grant
     end
 
     # Only allow a list of trusted parameters through.

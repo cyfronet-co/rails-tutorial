@@ -136,7 +136,7 @@ end
 `app/controllers/application_controller.rb`
 ```ruby
 class ApplicationController < ActionController::Base
-  before_action :authentiate_user!
+  before_action :authenticate_user!
   #...
 end
 ```
@@ -144,6 +144,14 @@ end
 `app/controllers/welcome_controller.rb`
 ```ruby
 class WelcomeController < ApplicationController
+  skip_before_action :authenticate_user!
+  #...
+end
+```
+
+`app/controllers/sessions_controller.rb`
+```ruby
+class SessionsController < ApplicationController
   skip_before_action :authenticate_user!
   #...
 end
@@ -225,3 +233,134 @@ Run migration one again:
 ```
 bin/rails db:migrate
 ```
+
+`app/models/user.rb`
+```ruby
+class User < ApplicationRecord
+  has_many :grants, dependent: :destroy
+end
+```
+
+`app/models/grant.rb`
+```ruby
+class Grant < ApplicationRecord
+  belongs_to :user
+  #...
+end
+```
+
+## Pundit for authorization
+
+Add pundit to `Gemfile` (`gem "pundit"`), run `bundle install` and add it into
+`ApplicationController` (`app/controllers/application_controller.rb`):
+```ruby
+class ApplicationController < ActionController::Base
+  include Pundit
+  #...
+end
+```
+
+Next run `pundit:install` generator:
+```
+rails g pundit:install
+```
+
+  * Explain what is generated
+
+Generate policy for grant:
+```ruby
+bin/rails g pundit:policy grant
+```
+
+`app/policies/grant_policy.rb`:
+```ruby
+class GrantPolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve
+      scope.where(user: user)
+    end
+  end
+
+  def new?
+    true
+  end
+
+  def create?
+    record.user == user
+  end
+
+  def show?
+    record.user == user
+  end
+
+  def edit?
+    record.user == user
+  end
+
+  def update?
+    record.user == user
+  end
+
+  def destroy?
+    record.user == user # and not active
+  end
+end
+```
+
+Modify `app/controllers/grants_controller.rb`:
+```ruby
+class GrantsController < ApplicationController
+  before_action :set_and_authorize_grant, only: %i[ show edit update destroy ]
+
+  def index
+    @grants = policy_scope(Grant.all)
+  end
+
+  def new
+    @grant = current_user.grants.new
+  end
+
+  # ...
+
+  def create
+    @grant = current_user.grants.new(grant_params)
+    authorize(@grant)
+    #...
+  end
+
+  #...
+
+  private
+    def set_and_authorize_grant
+      @grant = Grant.find(params[:id])
+      authorize(@grant)
+
+      @grant
+    end
+  #...
+end
+```
+
+  * Create new grant, show that other user cannot see it:
+    - It is not visible on the index view
+    - User cannot see grant by using show view - ugly exception is thrown. Let's
+      try to fix it
+
+Add to `app/views/application_controller.rb`:
+```
+class ApplicationController < ActionController::Base
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  #...
+
+  private
+    #...
+
+    def user_not_authorized
+      flash[:alert] = "You are not authorized to perform this action."
+      redirect_to(request.referrer || root_path)
+    end
+end
+```
+
+  * Explain how `rescue_from` works

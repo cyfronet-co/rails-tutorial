@@ -26,6 +26,7 @@ gem 'image_processing', '~> 1.2'
 gem 'hotwire-rails'
 
 gem "omniauth_openid_connect"
+gem "pundit"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

@@ -27,6 +27,7 @@ The repository stores code used during rails tutorial for CO team.
   * [Authentication & Authorization](docs/aa.md)
     - omniauth and PLGrid keycloak configuration
     - [rails credentials](https://blog.saeloun.com/2019/10/10/rails-6-adds-support-for-multi-environment-credentials.html)
+    - Pundit for authorization
   * [Tests](docs/tests.md)
   * [Emails](docs/emails.md)
   * [Background jobs](docs/active_jobs.md)

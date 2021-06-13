@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def create
     user = User.find_or_initialize_by(uid: auth.uid).tap do |u|
       u.name = auth.info.name
