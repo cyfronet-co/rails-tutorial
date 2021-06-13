@@ -1,2 +1,11 @@
+<p id="alert"><%= alert %></p>
+
 <h1><%= t 'welcome.index.title' %></h1>
 <p><%= @now %></p>
+
+<% if current_user %>
+  Welcome <%= current_user.name %>!
+  <%= link_to "Sign Out", logout_path, method: :delete %>
+<% else %>
+  <%= link_to "Sign in by PLGrid", "/auth/plgrid" %>
+<% end %>

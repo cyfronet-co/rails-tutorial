@@ -1,5 +1,4 @@
-# Rails tutorial - let's create simple bazar in 3h
-The repository stores code used during rails tutorial for CO team.
+# Rails tutorial - let's create simple bazar in 3h The repository stores code used during rails tutorial for CO team.
 
 ## Ruby basics
   * Show module, class, method, inheritance, `attr_*`
@@ -24,6 +23,8 @@ The repository stores code used during rails tutorial for CO team.
     - Not hotwire but nice to introduce now: counter cache
     - Live updated though websockets
   * [Authentication & Authorization](docs/aa.md)
+    - omniauth and PLGrid keycloak configuration
+    - [rails credentials](https://blog.saeloun.com/2019/10/10/rails-6-adds-support-for-multi-environment-credentials.html)
   * [Tests](docs/tests.md)
   * [Emails](docs/emails.md)
   * [Background jobs](docs/active_jobs.md)
