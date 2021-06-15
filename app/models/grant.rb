@@ -11,6 +11,7 @@ class Grant < ApplicationRecord
 
   after_save :log_creation
   broadcasts
+  after_create_commit -> { GrantMailer.grant_created(self).deliver_now }
 
   def to_param
     slug || id.to_s
