@@ -9,3 +9,7 @@
 <% else %>
   <%= link_to "Sign in by PLGrid", "/auth/plgrid" %>
 <% end %>
+
+<%= render(ExampleComponent.new(title: "my title")) do %>
+  Hello, World!
+<% end %>

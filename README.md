@@ -38,4 +38,6 @@ The repository stores code used during rails tutorial for CO team.
     - Configure email async send
     - Custom background processing
   * [Views components (https://github.com/github/view_component)](docs/view_components.md)
+    - Create sample component
+    - Component tests
   * [Assets via webpack](docs/assets.md)
