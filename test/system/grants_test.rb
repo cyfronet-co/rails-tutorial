@@ -3,6 +3,7 @@ require "application_system_test_case"
 class GrantsTest < ApplicationSystemTestCase
   setup do
     @grant = grants(:one)
+    sign_in_as("john")
   end
 
   test "visiting the index" do
@@ -14,8 +15,8 @@ class GrantsTest < ApplicationSystemTestCase
     visit grants_url
     click_on "New Grant"
 
-    fill_in "Name", with: @grant.name
-    fill_in "Title", with: @grant.title
+    fill_in "Name", with: "New grant"
+    fill_in "Title", with: "New grant title"
     click_on "Create Grant"
 
     assert_text "Grant was successfully created"
@@ -26,8 +27,8 @@ class GrantsTest < ApplicationSystemTestCase
     visit grants_url
     click_on "Edit", match: :first
 
-    fill_in "Name", with: @grant.name
-    fill_in "Title", with: @grant.title
+    fill_in "Name", with: "Updated name"
+    fill_in "Title", with: "Updated title"
     click_on "Update Grant"
 
     assert_text "Grant was successfully updated"

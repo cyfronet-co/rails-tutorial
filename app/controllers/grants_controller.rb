@@ -60,7 +60,7 @@ class GrantsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_and_authorize_grant
-      @grant = Grant.find(params[:id])
+      @grant = Grant.find_by(slug: params[:id]) || Grant.find(params[:id])
       authorize(@grant)
 
       @grant

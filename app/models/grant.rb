@@ -1,4 +1,6 @@
 class Grant < ApplicationRecord
+  include Sluggable
+
   has_rich_text :content
   has_many_attached :documents
   has_many :allocations, dependent: :destroy
@@ -9,6 +11,10 @@ class Grant < ApplicationRecord
 
   after_save :log_creation
   broadcasts
+
+  def to_param
+    slug || id.to_s
+  end
 
   private
     def log_creation

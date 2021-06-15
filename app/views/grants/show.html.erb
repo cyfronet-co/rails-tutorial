@@ -1,11 +1,11 @@
-<p id="notice"><%= notice %></p>
 
 <%= turbo_stream_from @grant %>
 
 <%= turbo_frame_tag :grant do %>
+  <p id="notice"><%= notice %></p>
   <%= render @grant %>
   <%= link_to 'Edit', edit_grant_path(@grant) %> |
-  <%= link_to 'Back', grants_path %>
+  <%= link_to 'Back', grants_path, "data-turbo-frame": "_top" %>
 <% end %>
 
 <div>

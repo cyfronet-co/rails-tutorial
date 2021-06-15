@@ -14,6 +14,7 @@ Add turbo frame tag into grant show and edit action
 `app/views/grants/show.html.erb`
 ```erb
 <%= turbo_frame_tag :grant do %>
+  <p id="notice"><%= notice %></p>
   <p>
     <strong>Title:</strong>
     <%= @grant.title %>
@@ -37,7 +38,7 @@ Add turbo frame tag into grant show and edit action
   </ul>
 
   <%= link_to 'Edit', edit_grant_path(@grant) %> |
-  <%= link_to 'Back', grants_path %>
+  <%= link_to 'Back', grants_path, "data-turbo-frame": "_top" %>
 <% end %>
 ```
 
@@ -285,8 +286,9 @@ Extract grant show into `app/views/grants/_grant.html.erb`:
 `app/views/grants/show.html.erb`:
 ```erb
 <%= turbo_frame_tag :grant do %>
+  <p id="notice"><%= notice %></p>
   <%= render @grant %>
   <%= link_to 'Edit', edit_grant_path(@grant) %> |
-  <%= link_to 'Back', grants_path %>
+  <%= link_to 'Back', grants_path, "data-turbo-frame": "_top" %>
 <% end %>
 ```

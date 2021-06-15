@@ -3,6 +3,7 @@ require "test_helper"
 class GrantsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @grant = grants(:one)
+    sign_in_as("john")
   end
 
   test "should get index" do
@@ -17,7 +18,7 @@ class GrantsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create grant" do
     assert_difference('Grant.count') do
-      post grants_url, params: { grant: { name: @grant.name, title: @grant.title } }
+      post grants_url, params: { grant: { name: "new grant", title: "new title" } }
     end
 
     assert_redirected_to grant_url(Grant.last)
@@ -34,7 +35,7 @@ class GrantsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update grant" do
-    patch grant_url(@grant), params: { grant: { name: @grant.name, title: @grant.title } }
+    patch grant_url(@grant), params: { grant: { name: "updated", title: "updated" } }
     assert_redirected_to grant_url(@grant)
   end
 

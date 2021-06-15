@@ -20,7 +20,7 @@ class AllocationsController < ApplicationController
 
   private
     def set_grant
-      @grant = Grant.find(params[:grant_id])
+      @grant = Grant.find_by(slug: params[:grant_id]) || Grant.find(params[:grant_id])
     end
 
     def allocation_params
