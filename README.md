@@ -29,7 +29,13 @@ The repository stores code used during rails tutorial for CO team.
     - [rails credentials](https://blog.saeloun.com/2019/10/10/rails-6-adds-support-for-multi-environment-credentials.html)
     - Pundit for authorization
   * [Tests](docs/tests.md)
+    - Model tests (test Grant slugable)
+    - Controller tests
+    - System tests (mention about feature tests with JS and chrome headless)
   * [Emails](docs/emails.md)
+    - Send email to Article author when new article is published
   * [Background jobs](docs/active_jobs.md)
+    - Configure email async send
+    - Custom background processing
   * [Views components (https://github.com/github/view_component)](docs/view_components.md)
   * [Assets via webpack](docs/assets.md)
