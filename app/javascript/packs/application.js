@@ -14,3 +14,4 @@ ActiveStorage.start()
 require("trix")
 require("@rails/actiontext")
 import "controllers"
+import 'js/bootstrap_js_files.js'
