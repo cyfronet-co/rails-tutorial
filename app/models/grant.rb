@@ -11,7 +11,10 @@ class Grant < ApplicationRecord
 
   after_save :log_creation
   broadcasts
-  after_create_commit -> { GrantMailer.grant_created(self).deliver_now }
+  after_create_commit -> do
+    GrantMailer.grant_created(self).deliver_now
+    GrantIndexerJob.perform_later(self)
+  end
 
   def to_param
     slug || id.to_s
