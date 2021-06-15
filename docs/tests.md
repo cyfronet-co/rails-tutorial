@@ -55,7 +55,7 @@ end
   * Show different type of tests (start with high level system test and go down
     into model test)
 
-## Our first custom feature - sluggable grant name
+## Our first custom feature - slugable grant name
 
 ### Model test
 
@@ -161,10 +161,10 @@ Finished in 0.504014s, 1.9841 runs/s, 1.9841 assertions/s.
 1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-Sluggable is quite generic thing which does not fit into grant class. Lets try
+Slugable is quite generic thing which does not fit into grant class. Lets try
 to externalize it into "concern" (`app/models/concerns/slugable.rb`):
 ```ruby
-module Sluggable
+module Slugable
     extend ActiveSupport::Concern
 
     included do
