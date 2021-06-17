@@ -9,7 +9,7 @@ support take a look at [Devise](https://github.com/heartcombo/devise) gem.
 
 Generate user model
 ```
-rails g model User uuid:string:uniq name:string
+rails g model User uid:string:uniq name:string email:string
 ```
 
   * Explain different generator options (show e.g. `bin/rails generate model
