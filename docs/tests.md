@@ -31,6 +31,11 @@ Add to `test/test_helper.rb`:
 OmniAuth.config.test_mode = true
 
 def sign_in_as(name)
+  stub_oauth_for(name)
+  get "/auth/plgrid/callback"
+end
+
+def stub_oauth_for(name)
   user = users(name)
   OmniAuth.config.add_mock(
     "plgrid",
@@ -40,7 +45,14 @@ def sign_in_as(name)
       email: user.email
     }
   )
-  get "/auth/plgrid/callback"
+end
+```
+
+Add to `test/application_system_test_case.rb`
+```ruby
+def sign_in_as(name)
+  stub_oauth_for(name)
+  visit "/auth/plgrid/callback"
 end
 ```
 
@@ -205,8 +217,6 @@ lot of errors. Let's try to fix it.
 def set_and_authorize_grant
   @grant = Grant.find_by(slug: params[:id]) || Grant.find(params[:id])
   authorize(@grant)
-
-  @grant
 end
 ```
 

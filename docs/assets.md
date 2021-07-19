@@ -58,3 +58,15 @@ Add example buttons on the welcome page `app/views/welcome/index.html.erb`:
   <button type="button" class="btn btn-link">Link</button>
 </p>
 ```
+
+## Images
+
+  1. Create `app/javascript/images` directory
+  1. Add `additional_paths: ['app/javascript/images']` to `config/webpacker.yml`
+  1. Add `require.context('../images', true)` to
+     `app/javascript/packs/application.js`
+
+Now you can use following helper in you views:
+```erb
+<%= image_pack_tag "my-image.jpg" %>
+```

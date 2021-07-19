@@ -13,7 +13,7 @@ gem 'sidekiq'
 Now we need to tell rails that we want to use it as our delayed job executor.
 Create `config/initializers/active_job.rb`:
 ```ruby
-ActiveJob::Base.queue_adapter = Rails.env.test? ? :inline : :sidekiq
+ActiveJob::Base.queue_adapter = :sidekiq
 ```
 Since sidekiq is running as a separate process we need to start it once we are
 starting our application. To simplify this process we can use
@@ -31,6 +31,8 @@ Now we can modify our code to use active jobs. Change
 ```ruby
 GrantMailer.grant_created(self).deliver_later
 ```
+
+*Note*: Mention about arguments serialization.
 
 And start application:
 ```
@@ -57,7 +59,25 @@ end
 Now we can invoke this job when grant is created (`app/models/grant.rb`):
 ```
 after_create_commit -> do
-  GrantMailer.grant_created(self).deliver_now
+  GrantMailer.grant_created(self).deliver_later
   GrantIndexerJob.perform_later(self)
 end
+```
+
+## Testing
+
+To make sure that no active job is performed during the tests add
+(`test/test_helper.rb`):
+```ruby
+require "sidekiq/testing"
+```
+
+To test that active job is scheduled you should include to your test:
+```ruby
+include ActiveJob::TestHelper
+```
+
+and next you can use following assertions:
+```ruby
+ssert_enqueued_with(job: GrantIndexerJob, args: [grants("one")])
 ```
